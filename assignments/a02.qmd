@@ -1,0 +1,34 @@
+---
+title: "Layla Chirar 02/23/26"
+subtitle: "Tidy Data"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+execute:
+  warning: false
+  message: false
+---
+
+# Introduction
+
+This is raw data for Magnetic Circular Dichroism
+
+I collected this data on 02/23/26 from a JASCO 15000 Circular Dichroism instrument.
+
+# Data
+
+```{r}
+
+mcd_ngb<- read_csv(here::here("data/raw", "Ngb_ferric_NaP_pH6.0_pos_1_LCJG_020226-1.csv"))
+
+head(mcd_ngb, 20)
+```
+
+# Analysis
+
+My data is tidy
+
+My primary key is ....
+
+# Conclusion
