@@ -86,8 +86,6 @@ bird_obs_subset <- bird_observations %>%
   full_join( y = sites, by = "site_id") %>%
   full_join(y = surveys, by = c("site_id", "survey_id")) %>%  
   select(survey_date, common_name, park_name, bird_count, observer)
-
-glimpse(survey_date)
 ```
 
 ```{r}
