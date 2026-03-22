@@ -1,0 +1,135 @@
+---
+title: "a05"
+author: "Chirar, Layla"
+editor: visual
+---
+
+## Introduction
+
+This data is from the EDI Data Repository: Sacramento-San Joaquin Delta Socioecological Monitoring
+
+## Analysis
+
+```{r}
+#Loading packages
+library(readr)
+library(dplyr)
+library(tidyr)
+library(forcats) # makes working with factors easier
+library(ggplot2)
+library(scales) # scale functions for visualization
+```
+
+```{r} unnamed chunk?}
+#needed to install the following packages
+install.packages("janitor")
+install.packages("DT")
+install.packages("leaflet")
+install.packages("viridis")
+```
+
+```{r}
+#loading newly installed packages
+library(janitor)
+library(leaflet)
+library(DT)
+library(viridis)
+```
+
+```{r}
+#loads data
+delta_visits_raw <- read_csv(here::here("data/raw/Socioecological_monitoring_data.csv"))
+
+```
+
+```{r}
+#gives names of columns
+colnames(delta_visits_raw)
+```
+
+```{r}
+#shows how the data is organized
+glimpse(delta_visits_raw)
+```
+
+```{r}
+#gives the date range for the dataset
+range(delta_visits_raw$Date)
+```
+
+```{r}
+#gives the unique values in Time_of_Day
+unique(delta_visits_raw$Time_of_Day)
+```
+
+```{r}
+#creates new variable where all names have the same format
+delta_visits <- delta_visits_raw %>% 
+    janitor::clean_names()
+```
+
+```{r}
+#makes data tidier with long format
+visits_long <- delta_visits %>%
+  pivot_longer(cols = c(sm_boat, med_boat, lrg_boat, bank_angler, scientist, cars),
+                 names_to = "visitor_type",
+                 values_to = "quantity") %>%
+    rename(restore_loc = eco_restore_approximate_location) %>% 
+    select(-notes)
+
+## Checks outcome
+head(visits_long)
+```
+
+```{r}
+daily_visits_loc <- visits_long %>% 
+    group_by(restore_loc, date, visitor_type) %>% # splits dataset into 3 groups
+    summarise(daily_visits = sum(quantity)) #adds all quanities and creates new variable
+    
+
+```
+
+```{r}
+#re orders the categories
+daily_visits_totals <- daily_visits_loc %>% 
+    group_by(restore_loc) %>% #all of the sam elcoation are grouped together
+    mutate(n = sum(daily_visits)) %>% #adds daily visits for each location
+    ungroup() %>%
+    mutate(restore_loc = fct_reorder(restore_loc, n)) #reorders based on total visits
+
+head(daily_visits_totals)
+```
+
+```{r}
+ggplot(data = daily_visits_totals, #creates plot using the daily_visit_totals
+       aes(x = daily_visits, y = restore_loc, #selects the variable for each axis
+           fill = visitor_type)) +
+    geom_col() +
+    labs(x = "Number of Visits", #labels everything
+         y = "Restoration Location", #labels the axis
+         fill = "Type of Visitor", #fills the bar based on the variable
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during study period") +
+    scale_x_continuous(breaks = seq(0,120, 20), expand = c(0,0)) +
+    theme_bw()
+```
+
+```{r}
+locations <- visits_long %>% 
+    distinct(restore_loc, .keep_all = TRUE) %>% #uses rows from restore_loc
+    select(restore_loc, latitude, longitude) #keeps columns restore_loc, latitude, longitude
+```
+
+```{r}
+leaflet(locations) %>%
+    addTiles() %>% #adds tiles to map
+    addMarkers( #adds markers for locations with pop up with location from restore_loc
+        lng = ~ longitude,
+        lat = ~ latitude,
+        popup = ~ restore_loc
+    )
+```
+
+## Discussion
+
+The bar plot shows each location's total number of visitors in descending order and also splits the bars up to show how many of the total visitors for each location belong to different groups of types of visitors. Med boats appeared to be the most abundant visitor type across all locations.
