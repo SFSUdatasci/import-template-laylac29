@@ -1,11 +1,17 @@
 ---
 title: "a04"
 author: "Chirar, Layla"
-editor: visual
+format:
+  html:
+    toc: true
+    toc-depth: 3
+execute:
+  warning: false
+  message: false
 ---
-  
-#tidy-data-joins assignment
-  
+
+## #tidy-data-joins assignment
+
 ```{r}
 library(dplyr)
 library(tidyr)
@@ -103,15 +109,17 @@ unique(bird_obs_subset$observer)
 
 ```
 
-#a04
+# #a04
 
-##Introduction
+## ##Introduction
+
 This data shows the bird species observed in different locations by month.
 
-##Data
+## ##Data
+
 This data was collected from the central Arizona-Phoenix metropolitan area by Arizona State University researchers and was downloaded 3/9/2026.
 
-##Analysis
+## ##Analysis
 
 ```{r}
 lubridate::month(surveys$survey_date)
@@ -135,10 +143,6 @@ bird_obs_park <- bird_obs_subset %>%
 bird_obs_park
 ```
 
-
-
-##Discussion
+## ##Discussion
 
 This data shows the amount of birds observed during each month for each park. There are some rows where the survey_month is listed as N/A, which maybe indicates that there were no observations for some months.
-
-

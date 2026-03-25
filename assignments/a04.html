@@ -78,8 +78,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-  
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#tidy-data-joins-assignment" id="toc-tidy-data-joins-assignment" class="nav-link active" data-scroll-target="#tidy-data-joins-assignment">#tidy-data-joins assignment</a></li>
+  <li><a href="#a04" id="toc-a04" class="nav-link" data-scroll-target="#a04">#a04</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">##Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">##Data</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">##Analysis</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">##Discussion</a></li>
+  </ul></li>
+  </ul>
+</nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -108,7 +121,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>#tidy-data-joins assignment</p>
+<section id="tidy-data-joins-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="tidy-data-joins-assignment">#tidy-data-joins assignment</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
@@ -298,10 +312,19 @@ $ direction  &lt;chr&gt; "NE", "E", "SE", "E", "NE", "N", "E", "E", "S", "E", "N
 [7] NA         </code></pre>
 </div>
 </div>
-<p>#a04</p>
-<p>##Introduction This data shows the bird species observed in different locations by month.</p>
-<p>##Data This data was collected from the central Arizona-Phoenix metropolitan area by Arizona State University researchers and was downloaded 3/9/2026.</p>
-<p>##Analysis</p>
+</section>
+<section id="a04" class="level1">
+<h1>#a04</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">##Introduction</h2>
+<p>This data shows the bird species observed in different locations by month.</p>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">##Data</h2>
+<p>This data was collected from the central Arizona-Phoenix metropolitan area by Arizona State University researchers and was downloaded 3/9/2026.</p>
+</section>
+<section id="analysis" class="level2">
+<h2 class="anchored" data-anchor-id="analysis">##Analysis</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">month</span>(surveys<span class="sc">$</span>survey_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -422,8 +445,12 @@ $ direction  &lt;chr&gt; "NE", "E", "SE", "E", "NE", "N", "E", "E", "S", "E", "N
 # ℹ 17 more rows</code></pre>
 </div>
 </div>
-<p>##Discussion</p>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">##Discussion</h2>
 <p>This data shows the amount of birds observed during each month for each park. There are some rows where the survey_month is listed as N/A, which maybe indicates that there were no observations for some months.</p>
+</section>
+</section>
 
 </main>
 <!-- /main column -->
