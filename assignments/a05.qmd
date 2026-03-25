@@ -6,7 +6,11 @@ editor: visual
 
 ## Introduction
 
-This data is from the EDI Data Repository: Sacramento-San Joaquin Delta Socioecological Monitoring
+This data identifies the most visited restoration sites and could help predict what sites will be most used and the types of visitors expected to use each site.
+
+##Data
+This data is from EDI Data Repository: Sacramento-San Joaquin Delta Socioecological Monitoring. It details locations and visitors to sites.
+
 
 ## Analysis
 
@@ -19,14 +23,11 @@ library(forcats) # makes working with factors easier
 library(ggplot2)
 library(scales) # scale functions for visualization
 ```
-
-```{r} unnamed chunk?}
+{r}
 #needed to install the following packages
-install.packages("janitor")
-install.packages("DT")
-install.packages("leaflet")
-install.packages("viridis")
-```
+install.packages("janitor") install.packages("DT") install.packages("leaflet") install.packages("viridis")
+
+
 
 ```{r}
 #loading newly installed packages
