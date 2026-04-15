@@ -1,0 +1,124 @@
+---
+title: "week 6, Chirar"
+author: "Chirar"
+editor: visual
+---
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(readr)
+```
+
+Read the data
+
+```{r}
+catch_original <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1", method = "libcurl"))
+```
+
+## Explore data
+
+```{r}
+head()
+```
+
+# Using select() function
+
+```{r}
+catch_data <- catch_original %>%
+  select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum)
+
+head(catch_data)
+
+catch_data2 <- catch_original %>%
+  select(-All, -notesRegCode)
+```
+
+# Check column types
+
+```{r}
+dplyr::glimpse(catch_data)
+```
+
+# Replace values in a column with mutate
+
+```{r}
+catch_clean <- catch_data %>%
+  mutate(Chinook = as.numeric(Chinook))
+
+head(catch_clean)
+
+i <- which(is.na(catch_clean$Chinook))
+i
+
+catch_data[i, ]
+
+Catch_clean <- catch_data %>%
+  mutate(Chinook = if_else(condition = Chinook == "I",
+                           true = "1",
+                           false = Chinook),
+        Chinook = as.numeric(Chinook))
+
+##check
+catch_clean[i, ]
+```
+
+# Changing shape using pivot_longer() and pivot_wider()
+
+```{r}
+catch_long <- catch_clean %>% 
+  #pivot longer all column except Region and Year
+  pivot_longer(
+    cols = -c(Region, Year),
+    names_to = 'Species',
+    values_to = 'catch'
+  )
+
+head(catch_long)
+```
+
+```{r}
+catch_wide <- catch_long %>%
+  pivot_wider(names_from = Species, values_from = catch)
+
+head(catch_wide)
+```
+
+# Renaming columns with rename()
+
+```{r}
+catch_long <- catch_long %>%
+  rename(catch_thousands = catch)
+
+head(catch_long)
+```
+
+# Adding column using mutate()
+
+```{r}
+catch_long <- catch_long %>%
+  mutate(catch = catch_thousands * 1000)
+
+head(catch_long)
+```
+
+##Summary statistics using group_by() and summarize()
+
+```{r}
+unique(catch_original$Region)
+
+#this shows us the unique regions for reach catch location/region
+```
+```{r}
+mean_region <- catch_long %>%
+    group_by(Region) %>%
+    summarize(mean_catch = mean(catch))
+
+head(mean_region)
+```
+```{r}
+n_region <- catch_long %>%
+    group_by(Region) %>%
+    summarize(n = n())
+
+head(n_region)
