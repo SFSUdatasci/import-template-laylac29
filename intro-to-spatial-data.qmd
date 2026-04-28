@@ -1,0 +1,25 @@
+---
+title: "Working with Spatial Data in R"
+author: "Chirar, Layla"
+editor: visual
+---
+
+## Data
+
+Alaska ragional boundaries, community locationsa nd population, and Alaska rivers data will be used, obtained from https://dev.nceas.ucsb.edu/view/urn:uuid:6f07cb25-a4a1-48e8-95cb-74f532f3ce2d
+
+## Analysis
+
+```{r}
+
+library(readr)
+library(here)
+library(sf)
+library(ggplot2)
+library(leaflet)
+library(scales)
+library(ggspatial)
+library(dplyr)
+
+```
+
