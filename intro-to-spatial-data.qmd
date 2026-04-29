@@ -23,3 +23,8 @@ library(dplyr)
 
 ```
 
+```{r}
+# read in shapefile using read_sf()
+ak_rgns_sf <- read_sf(here("data/ak_regions_simp.shp"))
+```
+
