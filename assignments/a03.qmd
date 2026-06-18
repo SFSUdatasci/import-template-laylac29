@@ -48,4 +48,4 @@ head(mean_region) #shows the beginning of dataset
 
 # Discussion
 
-The output data doesn't reflect species, year, or the catches in the thousands. It simplifies the data into each region's mean catch per year. It shows that the SSE region had the highest number of catches and the following regions in descending order. 
+The output data doesn't reflect species, year, or the catches in the thousands. It simplifies the data into each region's mean catch per year. It shows that the SSE region had the highest number of catches and the following regions in descending order.

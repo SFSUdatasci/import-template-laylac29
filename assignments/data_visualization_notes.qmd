@@ -1,0 +1,118 @@
+---
+title: "a05"
+author: "Chirar, Layla"
+editor: visual
+---
+
+```{r}
+#Loading packages
+library(readr)
+library(dplyr)
+library(tidyr)
+library(forcats) # makes working with factors easier
+library(ggplot2)
+library(scales) # scale functions for visualization
+```
+
+```{r}
+install.packages("janitor")
+install.packages("DT")
+install.packages("leaflet")
+install.packages("viridis")
+```
+
+```{r}
+library(janitor)
+library(leaflet)
+library(DT)
+library(viridis)
+```
+
+```{r}
+delta_visits_raw <- read_csv(here::here("data/raw/Socioecological_monitoring_data.csv"))
+
+```
+
+```{r}
+colnames(delta_visits_raw)
+```
+
+```{r}
+glimpse(delta_visits_raw)
+```
+
+```{r}
+range(delta_visits_raw$Date)
+```
+
+```{r}
+unique(delta_visits_raw$Time_of_Day)
+```
+
+```{r}
+delta_visits <- delta_visits_raw %>% 
+    janitor::clean_names()
+```
+
+
+```{r}
+delta_visits <- delta_visits_raw %>% 
+    janitor::clean_names()
+```
+
+
+```{r}
+#makes data tidier with long format
+visits_long <- delta_visits %>%
+  pivot_longer(cols = c(sm_boat, med_boat, lrg_boat, bank_angler, scientist, cars),
+                 names_to = "visitor_type",
+                 values_to = "quantity") %>%
+    rename(restore_loc = eco_restore_approximate_location) %>% 
+    select(-notes)
+
+## Checks outcome
+head(visits_long)
+```
+```{r}
+daily_visits_loc <- visits_long %>%
+    group_by(restore_loc, date, visitor_type) %>% 
+    summarise(daily_visits = sum(quantity))
+    
+
+```
+
+
+```{r}
+# barplot
+#data called in ggplot, map called in geom
+ggplot(data = daily_visits_loc) +
+    geom_col(aes(x = restore_loc, y = daily_visits))
+```
+
+```{r}
+#customizing colors
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,)) +
+    geom_col(fill = "blue")
+```
+```{r}
+#separates 
+ggplot(data = daily_visits_loc,
+       aes(x = restore_loc, y = daily_visits,
+           fill = visitor_type)) +
+    geom_col()
+```
+```{r}
+ggplot(data = daily_visits_loc,
+       aes(y = restore_loc, x = daily_visits, fill = visitor_type)) +
+    geom_col() +
+    labs(x = "Number of Visits",
+         y = "Restoration Location",
+         fill = "Type of Visitor",
+         title = "Total Number of Visits to Delta Restoration Areas by visitor type",
+         subtitle = "Sum of all visits during July 2017 and March 2018") +
+    theme_bw()
+```
+```{r}
+
+```

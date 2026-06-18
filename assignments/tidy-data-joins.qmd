@@ -1,26 +1,17 @@
 ---
-title: "a04"
-author: "Chirar, Layla"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-execute:
-  warning: false
-  message: false
+title: "R Practice: Tidy Data and Joins"
+editor: visual
 ---
-
-## #tidy-data-joins assignment
 
 ```{r}
 library(dplyr)
 library(tidyr)
 library(readr)
 ```
-
 ```{r}
 bird_observations <- read_csv(here::here("data/raw/52_pp52_birds_1.csv"))
 ```
+
 
 ```{r}
 surveys <- read_csv(here::here("data/raw/52_pp52_surveys_1.csv"))
@@ -32,12 +23,10 @@ taxalist <- read_csv(here::here("data/raw/52_pp52_taxalist_1.csv"))
 dim(bird_observations)
 head(bird_observations)
 ```
-
 ```{r}
 glimpse(bird_observations)
 summary(bird_observations)
 ```
-
 ```{r}
 names(bird_observations)
 ```
@@ -45,7 +34,6 @@ names(bird_observations)
 ```{r}
 unique(bird_observations$species_id)
 ```
-
 ```{r}
 birds_subset <- bird_observations %>%
   filter(species_id %in% c("BHCO", "RWBL")) %>%
@@ -63,12 +51,10 @@ birds_left <- left_join(x = birds_subset, y = sites, by = "site_id")
 
 head(birds_left)
 ```
-
 ```{r}
 birds_full <- full_join(x = birds_subset, y=sites, by = "site_id")
 head(birds_full)
 ```
-
 ```{r}
 birds_inner <- inner_join( x = birds_subset, y = taxalist, by = 'species_id')
 ```
@@ -86,6 +72,7 @@ bird_observations <- bird_observations %>%
 names(bird_observations)
 ```
 
+
 ```{r}
 bird_obs_subset <- bird_observations %>%
   full_join( y = taxalist, by = "species_id") %>%
@@ -98,6 +85,7 @@ bird_obs_subset <- bird_observations %>%
 unique(bird_obs_subset$observer)
 ```
 
+
 ```{r}
 bird_obs_subset <- bird_obs_subset %>%
   mutate(observer = if_else(condition = observer == "Josh Burns",
@@ -109,40 +97,9 @@ unique(bird_obs_subset$observer)
 
 ```
 
-# #a04
 
-## ##Introduction
-
-This data shows the bird species observed in different locations by month.
-
-## ##Data
-
-This data was collected from the central Arizona-Phoenix metropolitan area by Arizona State University researchers and was downloaded 3/9/2026.
-
-## ##Analysis
-
+#a04 stuff
 ```{r}
 lubridate::month(surveys$survey_date)
 ```
 
-```{r}
-bird_obs_subset <- bird_obs_subset %>%
-  mutate(survey_month = factor(lubridate::month(survey_date))) %>%
-  dplyr::relocate(survey_month, .after = survey_date)
-```
-
-```{r}
-bird_obs_subset <- bird_obs_subset %>%
-  filter(park_name %in% c('Lindo', 'Orme', 'Palomino', 'Sonrisa'))
-```
-
-```{r}
-bird_obs_park <- bird_obs_subset %>%
-  group_by(park_name, survey_month) %>%
-  summarize(total_birds = sum(bird_count, na.rm = TRUE), .groups = "drop")
-bird_obs_park
-```
-
-## ##Discussion
-
-This data shows the amount of birds observed during each month for each park. There are some rows where the survey_month is listed as N/A, which maybe indicates that there were no observations for some months.
